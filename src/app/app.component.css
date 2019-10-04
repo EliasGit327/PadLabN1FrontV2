@@ -1,0 +1,30 @@
+html, body, app-root, .app-frame {
+  overflow: hidden;
+  margin: 0;
+  height: 100%;
+  box-sizing: border-box;
+  color: #e0e0e0;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.header-shadow {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.disabled-underscore {
+  text-decoration: none;
+}
+
+.router-link-style {
+  margin-left: 25px;
+  color: white;
+}
+
+.router-outletStyle {
+  width: 75%;
+  margin: 25px auto;
+  min-height: 500px;
+}
