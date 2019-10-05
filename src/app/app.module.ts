@@ -7,13 +7,15 @@ import { MaterialModule } from './shared/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
-import {MatCardModule, MatListModule} from '@angular/material';
+import {MatCardModule, MatListModule, MatProgressSpinnerModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent
+    AuthComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -29,6 +31,7 @@ import {FormsModule} from '@angular/forms';
     MatCardModule,
     MatListModule,
     FormsModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
