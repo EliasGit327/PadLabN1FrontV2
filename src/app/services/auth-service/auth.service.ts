@@ -26,4 +26,12 @@ export class AuthService {
   getUser(): User {
     return this.user;
   }
+
+  pushSub(subOnId: number) {
+    this.user.subs.push(subOnId);
+  }
+
+  removeSub(subOnId: number) {
+    this.user.subs.splice(this.user.subs.indexOf(subOnId), 1);
+  }
 }

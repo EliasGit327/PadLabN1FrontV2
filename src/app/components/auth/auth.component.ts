@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserForCreation } from '../../models/UserForCreation';
 import { AuthService } from '../../services/auth-service/auth.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
@@ -14,6 +15,7 @@ export class AuthComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private snackBar: MatSnackBar,
+    private http: HttpClient,
     private router: Router
   ) {
     this.isRequesting = false;
@@ -21,6 +23,9 @@ export class AuthComponent implements OnInit {
 
   isRequesting: boolean;
   userName: string;
+
+  regFormUserDescr: string;
+  regFormUserName: string;
 
   ngOnInit() {}
 
@@ -38,6 +43,27 @@ export class AuthComponent implements OnInit {
         this.showSnackbar('No user found');
       }
     );
+  }
+
+  createUser(nameIn: string, descriptionIn: string) {
+    const newUser: UserForCreation = {
+      name: nameIn,
+      description: descriptionIn
+    };
+
+    if (nameIn.length > 0 || descriptionIn.length > 0) {
+      this.http.post(`api/users`, newUser)
+        .subscribe(() => {
+            this.showSnackbar('User has been created!');
+            this.regFormUserDescr = '';
+            this.regFormUserName = '';
+          },
+          (error: HttpErrorResponse) => {
+
+          });
+    } else {
+      this.showSnackbar('Both inputs should have value');
+    }
   }
 
   showSnackbar(message: string) {

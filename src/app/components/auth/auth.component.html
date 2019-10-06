@@ -1,25 +1,90 @@
-<mat-card class="card-style">
+<mat-tab-group style="max-width: 450px;margin:10px auto;margin-bottom: 20px" dynamicHeight>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon" style="padding-right: 5px">account_circle</mat-icon>
+            Log in
+        </ng-template>
 
-  <mat-card-header>
-    <mat-card-title>Authentication</mat-card-title>
-    <mat-card-subtitle>Provide username to be able using this service</mat-card-subtitle>
-  </mat-card-header>
+        <div style="padding-top: 20px;min-height: 400px">
+        <mat-card class="card-style">
+            <mat-card-header>
+                <mat-card-title>Authentication</mat-card-title>
+                <mat-card-subtitle>Provide username to be able using this service</mat-card-subtitle>
+            </mat-card-header>
 
-  <div *ngIf="!isRequesting">
-    <mat-card-content>
-      <mat-form-field class="form-field-style">
-          <input #input matInput type="text" placeholder="User name" [(ngModel)]="userName">
-        <button mat-button *ngIf="userName" matSuffix mat-icon-button aria-label="Clear" (click)="userName=''">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-    </mat-card-content>
+            <div *ngIf="!isRequesting">
+                <mat-card-content>
 
-    <mat-card-actions>
-      <button mat-button class="button-style" (click)="getUserRequest(input.value)">Login</button>
-    </mat-card-actions>
+                    <mat-form-field class="form-field-style">
+                        <input #input matInput type="text" placeholder="User name" [(ngModel)]="userName">
+                        <button mat-button *ngIf="userName" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="userName=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
 
-  </div>
+                    </mat-form-field>
+                </mat-card-content>
 
-  <mat-spinner *ngIf="isRequesting" class="spinner-style"></mat-spinner>
-</mat-card>
+                <mat-card-actions>
+                    <button mat-button class="button-style" (click)="getUserRequest(input.value)">Login</button>
+                </mat-card-actions>
+
+            </div>
+
+            <mat-spinner *ngIf="isRequesting" class="spinner-style"></mat-spinner>
+        </mat-card>
+        </div>
+
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon" style="padding-right: 5px">account_box</mat-icon>
+            Register
+        </ng-template>
+
+        <div style="padding-top: 20px">
+            <mat-card class="card-style">
+                <mat-card-header>
+                    <mat-card-title>Registration</mat-card-title>
+                    <mat-card-subtitle>Fill both inputs for creating account</mat-card-subtitle>
+                </mat-card-header>
+
+                <div *ngIf="!isRequesting">
+                    <mat-card-content>
+
+                        <mat-form-field class="form-field-style">
+                            <input #regUserNameInput matInput type="text" id="regUserNameInput"
+                                   placeholder="User name" [(ngModel)]="regFormUserName">
+                            <button mat-button *ngIf="regFormUserName" matSuffix mat-icon-button aria-label="Clear"
+                                    (click)="regFormUserName=''">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+
+                        <mat-form-field class="form-field-style">
+                            <input #regUserDescrInput matInput type="text" id="regUserDescrInput"
+                                   placeholder="User description" [(ngModel)]="regFormUserDescr">
+                            <button mat-button *ngIf="regFormUserDescr" matSuffix mat-icon-button aria-label="Clear"
+                                    (click)="regFormUserDescr=''">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </mat-card-content>
+
+                    <mat-card-actions>
+                        <button mat-button class="button-style"
+                                (click)="createUser(regUserNameInput.value, regUserDescrInput.value)">
+                            Create
+                        </button>
+                    </mat-card-actions>
+
+                </div>
+
+                <mat-spinner *ngIf="isRequesting" class="spinner-style"></mat-spinner>
+            </mat-card>
+        </div>
+    </mat-tab>
+
+</mat-tab-group>
+

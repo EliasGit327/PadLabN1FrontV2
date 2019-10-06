@@ -1,17 +1,21 @@
+<div class="mat-typography app-frame mat-app-background" style="height: 100%">
 
+    <div class="mat-typography app-frame mat-app-background">
+        <mat-toolbar color="primary" class="">
+            <mat-toolbar-row>
+                <span>Third Line</span>
+                <span class="spacer">{{title}}</span>
+                <a routerLinkActive="true" class="disabled-underscore router-link-style"
+                   [routerLink]="['/home']" *ngIf="authService.getUser()">Home</a>
+                <a routerLinkActive="true" class="disabled-underscore router-link-style"
+                   [routerLink]="['/users']" *ngIf="authService.getUser()">Users</a>
+            </mat-toolbar-row>
+        </mat-toolbar>
 
-<div class="mat-typography app-frame mat-app-background">
-  <mat-toolbar color="primary" class="">
-    <mat-toolbar-row>
-      <span>Third Line</span>
-      <span class="spacer">{{title}}</span>
-      <a routerLinkActive="true" class="disabled-underscore router-link-style" [routerLink]="['/home']">Home</a>
-      <a routerLinkActive="true" class="disabled-underscore router-link-style" [routerLink]="['/users']">Users</a>
-    </mat-toolbar-row>
-  </mat-toolbar>
+        <div class="router-outletStyle">
+            <router-outlet>
+            </router-outlet>
+        </div>
+    </div>
 
-  <div class="router-outletStyle">
-    <router-outlet>
-    </router-outlet>
-  </div>
 </div>

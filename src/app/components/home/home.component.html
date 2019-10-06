@@ -1,35 +1,33 @@
-<div>
+<mat-card class="card-style">
+    <div style="flex-direction: row; display: flex;align-items: center;justify-content: space-between">
 
-    <mat-card class="card-style">
-        <div style="flex-direction: row; display: flex;align-items: center;justify-content: space-between">
+        <div style="flex-direction: row; display: flex;align-items: center;">
+            <mat-icon>account_circle</mat-icon>
 
-            <div style="flex-direction: row; display: flex;align-items: center;">
-                <mat-icon>account_circle</mat-icon>
-
-                <div style="height:100%;">
-                    <div class="vert-centered-text" style="margin-left: 10px">
-                        {{user.name}}
-                    </div>
+            <div style="height:100%;">
+                <div class="vert-centered-text" style="margin-left: 10px;font-size: 20px">
+                    {{user.name}}
                 </div>
             </div>
-
-            <div style="flex-direction: row; display: flex;align-items: center;">
-                <button mat-button class="button-style" style="justify-self: flex-end">
-                    <mat-icon>update</mat-icon>
-                </button>
-                <button mat-button class="button-style" style="justify-self: flex-end">
-                    <mat-icon>create</mat-icon>
-                </button>
-            </div>
         </div>
-    </mat-card>
 
-    <mat-tab-group style="margin-top: 10px;min-height: 250px" dynamicHeight>
-        <mat-tab>
-            <ng-template mat-tab-label>
-                Subscriptions
-            </ng-template>
+        <div style="flex-direction: row; display: flex;align-items: center;">
+            <button mat-icon-button class="button-style" style="justify-self: flex-end"
+                    (click)="getPosts(authService.getUser().name)">
+                <mat-icon>update</mat-icon>
+            </button>
+        </div>
+    </div>
+</mat-card>
 
+<mat-tab-group style="max-width: 450px;margin:10px auto;margin-bottom: 20px" dynamicHeight>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon style="padding-right: 10px">favorite</mat-icon>
+            Subscriptions
+        </ng-template>
+
+        <div style="margin-top: 20px;margin-bottom: 20px">
             <div *ngFor="let post of posts" style="margin-top: 10px">
                 <mat-card class="card-style">
 
@@ -46,7 +44,8 @@
 
                     <mat-card-actions>
                         <div style="flex-direction: row; display: flex;align-items: center;justify-content: flex-end">
-                            <button mat-button class="button-style" style="justify-self: flex-end" (click)="delete(post.postId)">
+                            <button mat-button class="button-style" style="justify-self: flex-end"
+                                    (click)="delete(post.postId)">
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </div>
@@ -54,39 +53,61 @@
 
                 </mat-card>
             </div>
+        </div>
 
-        </mat-tab>
+    </mat-tab>
 
-        <mat-tab >
-            <ng-template mat-tab-label>
-                Create a post
-            </ng-template>
-            <mat-card class="card-style">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon style="padding-right: 10px">list</mat-icon>
+            Create post
+        </ng-template>
+
+        <div style="min-height: 100%;margin-top: 20px;">
+            <mat-card class="card-style" style="margin-top: 10px">
+
                 <div style="flex-direction: row; display: flex;align-items: center;justify-content: space-between">
 
-                    <div style="flex-direction: row; display: flex;align-items: center;">
-                        <mat-icon>account_circle</mat-icon>
-
-                        <div style="height:100%;">
-                            <div class="vert-centered-text" style="margin-left: 10px">
-                                {{user.name}}
-                            </div>
-                        </div>
+                    <div style="flex-direction: row; display: flex;align-items: center;justify-content: flex-start">
+                        <mat-card-title>Create post form</mat-card-title>
                     </div>
-
-                    <div style="flex-direction: row; display: flex;align-items: center;">
-                        <button mat-button class="button-style" style="justify-self: flex-end">
-                            <mat-icon>update</mat-icon>
-                        </button>
-                        <button mat-button class="button-style" style="justify-self: flex-end">
-                            <mat-icon>create</mat-icon>
+                    <div style="flex-direction: row; display: flex;align-items: center;justify-content: flex-end">
+                        <button mat-icon-button class="button-style" style="justify-self: flex-end"
+                                (click)="tryCreatePost(authService.getUser().name,
+                                     inputPostTitle.value, inputPostBody.value)">
+                            <mat-icon>publish</mat-icon>
                         </button>
                     </div>
                 </div>
+
+                <mat-card-subtitle>Fill all the inputs to create a post</mat-card-subtitle>
+
+                <mat-card-content>
+
+                    <mat-form-field class="form-field-style" style="width: 100%">
+                        <input #inputPostTitle matInput type="text" placeholder="Post title"
+                               [(ngModel)]="formPostTitle" id="inputPostTitle">
+                        <button mat-button *ngIf="formPostTitle" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="formPostTitle=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+
+                    </mat-form-field>
+
+                    <mat-form-field class="form-full-width" style="width: 100%">
+                            <textarea #inputPostBody matInput type="text" placeholder="Post message"
+                                      [(ngModel)]="formPostBody"
+                                      style="height: 100px" id="inputPostBody">
+                            </textarea>
+                    </mat-form-field>
+
+                </mat-card-content>
+
             </mat-card>
-        </mat-tab>
-    </mat-tab-group>
+        </div>
 
+    </mat-tab>
+</mat-tab-group>
 
+<div style="height: 500px"></div>
 
-</div>
