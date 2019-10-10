@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { LogLevel } from '@aspnet/signalr';
 import { Post } from '../../models/Post';
 import { PostForCreation } from '../../models/PostForCreation';
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit {
   formPostTitle: string;
   formPostBody: string;
 
-  constructor(private authService: AuthService, private http: HttpClient) { }
+  constructor(private authService: AuthService, private http: HttpClient, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.user = this.authService.getUser();
@@ -49,10 +50,10 @@ export class HomeComponent implements OnInit {
     this.http.get<Post[]>(`api/subs/${value}`)
       .subscribe(data => {
           if (true) {
-            this.posts = data.reverse();
-            // this.postMessage = '';
-          } else {
-            // this.postMessage = 'User not found';
+            // this.posts = data.reverse();
+            this.posts = data.sort((a, b) => {
+              return  +new Date(a.date) - +new Date(b.date);
+            }).reverse();
           }
 
         },
@@ -70,12 +71,12 @@ export class HomeComponent implements OnInit {
       this.http.post(`api/users/${userName}/posts`, newPost)
         .subscribe(() => {
             // this.getPosts((document.getElementById('userNameInput') as HTMLInputElement).value);
+          this.showSnackbar('Post has been created!');
           },
           (error: HttpErrorResponse) => {
           });
-      (document.getElementById('userToCreateNameInput') as HTMLInputElement).value = '';
-      (document.getElementById('postTitleInput') as HTMLInputElement).value = '';
-      (document.getElementById('postBodyInput') as HTMLInputElement).value = '';
+      (document.getElementById('inputPostTitle') as HTMLInputElement).value = '';
+      (document.getElementById('inputPostBody') as HTMLInputElement).value = '';
     }
   }
 
@@ -84,6 +85,10 @@ export class HomeComponent implements OnInit {
       .subscribe(() => { this.getPosts(this.user.name); }, (error: HttpErrorResponse) => {
       });
     this.getPosts((document.getElementById('userNameInput') as HTMLInputElement).value);
+  }
+
+  showSnackbar(message: string) {
+    this.snackBar.open(message, null, { duration: 2000 });
   }
 
 }
