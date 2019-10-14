@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
     this.user = this.authService.getUser();
     this.getPosts(this.user.name);
 
-    const connection =  new signalR.HubConnectionBuilder()
+    const connection = new signalR.HubConnectionBuilder()
       .withUrl('https://localhost:5001/message', {})
       .configureLogging(LogLevel.Information)
       .build();
@@ -36,14 +36,14 @@ export class HomeComponent implements OnInit {
     connection.on('send', data => {
       const post: Post = data;
       if (post.postId !== null && post.postId !== undefined) {
-        if (this.authService.getUser().id  !== undefined && this.authService.getUser().id !== null) {
-            this.posts.unshift(post);
+        if (this.authService.getUser().id !== undefined && this.authService.getUser().id !== null) {
+          this.posts.unshift(post);
         }
       }
 
     });
 
-    connection.start().then( () => connection.invoke('Authorize', this.authService.getUser().id));
+    connection.start().then(() => connection.invoke('Authorize', this.authService.getUser().id));
   }
 
   getPosts(value: string) {
@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
           if (true) {
             // this.posts = data.reverse();
             this.posts = data.sort((a, b) => {
-              return  +new Date(a.date) - +new Date(b.date);
+              return +new Date(a.date) - +new Date(b.date);
             }).reverse();
           }
 
@@ -71,12 +71,14 @@ export class HomeComponent implements OnInit {
       this.http.post(`api/users/${userName}/posts`, newPost)
         .subscribe(() => {
             // this.getPosts((document.getElementById('userNameInput') as HTMLInputElement).value);
-          this.showSnackbar('Post has been created!');
+            this.showSnackbar('Post has been created!');
+            (document.getElementById('inputPostTitle') as HTMLInputElement).value = '';
+            (document.getElementById('inputPostBody') as HTMLInputElement).value = '';
           },
           (error: HttpErrorResponse) => {
+            this.showSnackbar('Error!');
           });
-      (document.getElementById('inputPostTitle') as HTMLInputElement).value = '';
-      (document.getElementById('inputPostBody') as HTMLInputElement).value = '';
+
     }
   }
 
@@ -84,7 +86,7 @@ export class HomeComponent implements OnInit {
     this.http.delete(`api/posts/${postId}`)
       .subscribe(() => { this.getPosts(this.user.name); }, (error: HttpErrorResponse) => {
       });
-    this.getPosts((document.getElementById('userNameInput') as HTMLInputElement).value);
+    // this.getPosts((document.getElementById('userNameInput') as HTMLInputElement).value);
   }
 
   showSnackbar(message: string) {
